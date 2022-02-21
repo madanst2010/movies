@@ -1,0 +1,124 @@
+<div class="nav">
+    <button *ngIf="!_authService.loggedIn()" (click)="logIn()">Log in</button>
+    <button *ngIf="!_authService.loggedIn()" (click)="signUp()">Sign Up</button>
+    <button *ngIf="_authService.loggedIn()" (click)="logOut()">Log Out</button>
+    <button (click)="createList()">Create List</button>
+</div>
+    <div [class.hd] = "addList">
+        <div *ngIf="addList" class="container tops">
+            <form ngNativeValidate #gfg = "ngForm" (ngSubmit)="addListfun(gfg.value)">
+                <div class="form-group">
+                    <label for="name">Name*</label>
+                    <input type="text" class="form-control" id="name"  name="name" required  ngModel/>
+                </div>
+                <mat-checkbox class="example-margin" name="public" ngModel>Private</mat-checkbox>
+                <div class="mrg">
+                <button  class="btn btn-success" (click)="cancel()">Cancel</button>
+                <button  type="submit" class="btn btn-success" >Create</button>
+                </div>
+            </form>
+        </div>
+      </div>
+
+<!-- <button mat-raised-button (click)="openDialog()">Pick one</button> -->
+<div class="container">
+    <h1>Search Movie</h1>
+    <form ngNativeValidate #gfg = "ngForm" (ngSubmit)="onSubmit(gfg.value)">
+      <div class="form-group">
+        <label for="title">Title*</label>
+        <input type="text" class="form-control" id="title"  name="title" required  ngModel/>
+      </div>
+      <button type="submit" class="btn btn-success">Search</button>
+    </form>
+    <div *ngIf="movie">
+        <h1>Movie</h1>
+        <img src="{{movie.Poster}}" alt="poster" srcset="">
+        <p>{{movie.Title}}  </p>
+        <p>{{movie.Year}} | {{movie.Runtime}} | {{movie.Genre}}</p>
+        <p>{{movie.Actors}} </p>
+        <p>{{movie.Plot}} </p>
+        <button class="button-1" (click)="addToPlayList(movie)">Add to playlist</button>
+    </div>
+    <!-- <button mat-raised-button (click)="openDialog()">Pick one</button> -->
+  </div>
+  <div>
+    <div *ngIf="_authService.loggedIn() && choose">
+        <div [class.hd] = "choose">
+            <div class="mainBox">
+
+                <h1>Choose a playlist</h1>
+                <div class="left">
+
+                    <ng-container *ngFor="let playlist of myPlayLists; let i = index">
+                        <h2 class="card_titles">
+                            <div>
+                                {{playlist.name}}
+                            </div>
+                            <button  class="btnss card_btn nxt button-1"(click)="selectPlayList(playlist.id)">Select</button>
+                        </h2>
+                        
+                    </ng-container>
+                </div>
+                <button class="btnss left button-1" (click)="cancelChoose()">Go Back</button>
+                
+            </div>
+            </div>
+        </div>
+    </div>
+
+<!-- <div *ngIf="_authService.loggedIn()">
+    <h1>My List</h1>
+    <div *ngFor = "let item of selfPlayList; let i = index">
+        <h3>List {{i + 1}}</h3>
+        <button (click)="deleteList(item.id)">Delete</button>
+        <p>Plylist Name: {{item.name}}</p>
+        <p>Plylist Name: {{item.public}}</p>
+        <p>Movies:</p>
+        <div *ngFor = "let it of item.movieId; let j = index">
+            {{item.movieId[j].imdbID}} 
+            <button (click)="removeMovie(item.id ,item.movieId[j].id)">Remove</button>
+        </div>
+    </div>
+</div> -->
+<div *ngIf="_authService.loggedIn()">
+    <div class="main">
+        <h1>My List</h1>
+        <ul class="cards">
+        <ng-container *ngFor = "let item of selfPlayList; let i = index" >
+          
+                    <li class="cards_item">
+                    <div class="card">
+                        <div class="card_image">
+                            <mat-icon class="icon" aria-hidden="false" aria-label="Example home icon" (click)="deleteList(item.id)">delete</mat-icon>
+                            <img src="https://picsum.photos/500/300/?image=10">
+                        </div>
+                        <div class="card_content">
+                        <h2 class="card_title">{{item.name}}</h2>
+                        <p class="card_text">{{item.public}}</p>
+
+                        <button class="btns card_btn" (click)="showPlayList(item.id, item.movieId, 'm')">See Playlist</button>
+                        </div>
+                    </div>
+                    </li>
+                </ng-container> 
+        </ul>
+    </div>
+</div>
+<div class="main">
+    <h1>Public Playlists</h1>
+    <ul class="cards">
+    <ng-container *ngFor = "let item of publicPlayList; let i = index" >
+        <ng-container *ngFor = "let it of item; let j = index">
+                <li class="cards_item">
+                  <div class="card">
+                    <div class="card_image"><img src="https://picsum.photos/500/300/?image=10"></div>
+                    <div class="card_content">
+                      <h2 class="card_title">{{item[j].user}}</h2>
+                      <p class="card_text">{{item[j].name}}</p>
+                      <button class="btns card_btn" (click)="showPlayList(item[j].id, item[j].movieId, 'p')">See Playlist</button>
+                    </div>
+                  </div>
+                </li>
+            </ng-container>  
+        </ng-container>
+    </ul>

@@ -1,0 +1,45 @@
+<div class="main">
+    <h1>{{mainStr}} Playlists</h1>
+    <ul class="cards">
+    <ng-container *ngFor = "let movie of movies; let i = index" >
+                <li class="cards_item">
+                  <div class="card">
+                    <div class="card_image">
+                        <img src="{{movie.Poster}}" alt="poster" srcset="">
+                    </div>
+                    <div class="card_content">
+                        <p>{{movie.Title}} </p>
+                        <p>{{movie.Year}} | {{movie.Runtime}} | {{movie.Genre}}</p>
+                        <p>{{movie.Plot}} </p>
+                        <p>Starring: {{movie.Actors}} </p>
+
+                    </div>
+                    <button *ngIf="public" class="btns card_btn" (click)="addToPlayList(movie)">Add To Playlist</button>
+                  </div>
+                </li> 
+        </ng-container>
+    </ul>
+<div>
+    <div *ngIf="_authService.loggedIn() && choose">
+        <div [class.hd] = "choose">
+            <div class="mainBox">
+
+                <h1>Choose a playlist</h1>
+                <div class="left">
+
+                    <ng-container *ngFor="let playlist of myPlayLists; let i = index">
+                        <h2 class="card_titles">
+                            <div>
+                                {{playlist.name}}
+                            </div>
+                            <button  class="btnss card_btn nxt button-1"(click)="selectPlayList(playlist.id)">Select</button>
+                        </h2>
+                        
+                    </ng-container>
+                </div>
+                <button class="btnss left button-1" (click)="cancelChoose()">Go Back</button>
+                
+            </div>
+            </div>
+        </div>
+    </div>

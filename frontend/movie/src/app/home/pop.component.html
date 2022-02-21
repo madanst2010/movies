@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Chosse Playlist</h1>
+<div *ngIf="data1.playlist.length > 0" mat-dialog-content>
+  <div *ngFor="let play of data1.playlist; let i = index">
+    {{data1.playlist[i].name}}
+    <button>Add</button>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+</div>
